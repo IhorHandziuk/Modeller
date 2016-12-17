@@ -1,9 +1,8 @@
-//{{NO_DEPENDENCIES}}
+#pragma once
+
 // Microsoft Visual C++ generated include file.
-// Used by log.rc
 
 // Next default values for new objects
-//
 #define IDD_LOG                         201
 #define IDC_LIST_LOG                    2001
 #define IDC_BUTTON_CLEAR                2002

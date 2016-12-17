@@ -177,56 +177,6 @@ void ModelGL::draw()
 	glEnable(GL_LIGHTING);
 }
 
-// load a BMP as texture
-unsigned int ModelGL::loadTextureBmp(const char* fileName)
-{
-    int chans, x, y;
-    void* buf;
-    Image::Bmp bmp;
-
-    bmp.read(fileName);
-    x = bmp.getWidth();
-    y = bmp.getHeight();
-    chans = bmp.getBitCount() / 8;
-    buf = (void*)bmp.getDataRGB();
-
-    // gen texture ID
-    GLuint texture;
-    glGenTextures(1, &texture);
-
-    // set active texture and configure it
-    glBindTexture(GL_TEXTURE_2D, texture);
-
-    // select modulate to mix texture with color for shading
-    glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    // if wrap is true, the texture wraps over at the edges (repeat)
-    //       ... false, the texture ends at the edges (clamp)
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    //glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-    // build our texture mipmaps
-    switch(chans)
-    {
-    case 1:
-        gluBuild2DMipmaps(GL_TEXTURE_2D, chans, x, y, GL_LUMINANCE, GL_UNSIGNED_BYTE, buf);
-        break;
-    case 3:
-        gluBuild2DMipmaps(GL_TEXTURE_2D, chans, x, y, GL_RGB, GL_UNSIGNED_BYTE, buf);
-        break;
-    case 4:
-        gluBuild2DMipmaps(GL_TEXTURE_2D, chans, x, y, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-        break;
-    }
-
-    return texture;
-}
-
 // rotate the camera
 void ModelGL::rotateCamera(int x, int y)
 {

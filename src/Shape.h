@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <gl\GLU.h>
+#include "gl/GLU.h"
 #include "algebra_structs.h"
 using namespace std;
 

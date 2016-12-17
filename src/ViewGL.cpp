@@ -1,13 +1,9 @@
 #include "ViewGL.h"
-#include "resource.h"
 using namespace Win;
 
-ViewGL::ViewGL() : hdc(0), hglrc(0)
-{
-}
-ViewGL::~ViewGL()
-{
-}
+ViewGL::ViewGL() : hdc(nullptr), hglrc(nullptr) {}
+
+ViewGL::~ViewGL() {}
 
 void ViewGL::closeContext(HWND handle)
 {
@@ -15,12 +11,12 @@ void ViewGL::closeContext(HWND handle)
         return;
 
     // delete DC and RC
-    ::wglMakeCurrent(0, 0);
+    ::wglMakeCurrent(nullptr, nullptr);
     ::wglDeleteContext(hglrc);
     ::ReleaseDC(handle, hdc);
 
-    hdc = 0;
-    hglrc = 0;
+    hdc = nullptr;
+    hglrc = nullptr;
 }
 
 bool ViewGL::createContext(HWND handle, int colorBits, int depthBits, int stencilBits)
@@ -31,7 +27,7 @@ bool ViewGL::createContext(HWND handle, int colorBits, int depthBits, int stenci
     // set pixel format
     if(!setPixelFormat(hdc, colorBits, depthBits, stencilBits))
     {
-        ::MessageBox(0, L"Cannot set a suitable pixel format.", L"Error", MB_ICONEXCLAMATION | MB_OK);
+        ::MessageBox(nullptr, L"Cannot set a suitable pixel format.", L"Error", MB_ICONEXCLAMATION | MB_OK);
         ::ReleaseDC(handle, hdc);                     // remove device context
         return false;
     }
@@ -67,13 +63,12 @@ int ViewGL::findPixelFormat(HDC hdc, int colorBits, int depthBits, int stencilBi
 {
     int currMode;                               // pixel format mode ID
     int bestMode = 0;                           // return value, best pixel format
-    int currScore = 0;                          // points of current mode
     int bestScore = 0;                          // points of best candidate
+	int currScore;                              // points of current mode
+
     PIXELFORMATDESCRIPTOR pfd;
 
     // search the available formats for the best mode
-    bestMode = 0;
-    bestScore = 0;
     for(currMode = 1; ::DescribePixelFormat(hdc, currMode, sizeof(pfd), &pfd) > 0; ++currMode)
     {
         // ignore if cannot support opengl
@@ -121,7 +116,7 @@ int ViewGL::findPixelFormat(HDC hdc, int colorBits, int depthBits, int stencilBi
     return bestMode;
 }
 
-void ViewGL::swapBuffers()
+void ViewGL::swapBuffers() const
 {
     ::SwapBuffers(hdc);
 }

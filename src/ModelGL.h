@@ -17,7 +17,7 @@ public:
 	void setMouseRight(bool flag) { mouseRightDown = flag; };
 	void setPicking(bool flag) { pick = flag; };
 	void setControl(bool flag) { ctrl = flag; };
-	bool isControl() { return ctrl; };
+	bool isControl() const { return ctrl; };
 	void hide_grid() { hideGrid = !hideGrid; };
     void setMousePosition(int x, int y) { mouseX = x; mouseY = y; };
     void setDrawMode(int mode);
@@ -33,13 +33,8 @@ public:
 	vector<Shape*> shapes;
 	float cameraAngleX;
 	float cameraAngleY;
-protected:
 
 private:
-    // member functions
-    unsigned int loadTextureBmp(const char *filename);
-
-    // members
 	int windowHeight;
 	int windowWidth;
 	bool windowResized;

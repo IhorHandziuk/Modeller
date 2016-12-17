@@ -1,21 +1,21 @@
-===== Log started at 2016-04-09, 23:34:05. =====
+===== Log started at 2016-12-17, 13:55:27. =====
 
-23:34:05  Main window is created.
-23:34:06  Created a rendering thread for OpenGL.
-23:34:06  Initialized OpenGL states.
-23:34:06  Initialized OpenGL viewport and projection matrix.
-23:34:06  Entering OpenGL rendering thread...
-23:34:06  OpenGL window is resized: 296x296.
-23:34:06  OpenGL window is created.
-23:34:06  OpenGL form dialog is created.
-23:34:06  Status bar window is created.
-23:34:06  OpenGL window is resized: 826x296.
-23:34:10  
-23:34:10  Terminating application...
-23:34:10  Exit OpenGL rendering thread.
-23:34:10  OpenGL window is destroyed.
-23:34:10  Main window is destroyed.
-23:34:10  Application terminated.
+13:55:27  Main window is created.
+13:55:27  Created a rendering thread for OpenGL.
+13:55:27  Initialized OpenGL states.
+13:55:27  Initialized OpenGL viewport and projection matrix.
+13:55:27  OpenGL window is resized: 296x296.
+13:55:27  Entering OpenGL rendering thread...
+13:55:27  OpenGL window is created.
+13:55:27  OpenGL form dialog is created.
+13:55:27  Status bar window is created.
+13:55:27  OpenGL window is resized: 826x296.
+13:55:32  
+13:55:32  Terminating application...
+13:55:32  Exit OpenGL rendering thread.
+13:55:32  OpenGL window is destroyed.
+13:55:32  Main window is destroyed.
+13:55:32  Application terminated.
 
 
 ===== END OF LOG =====

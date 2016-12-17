@@ -1,13 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////
-// main.cpp
-// ========
-// main driver
-//
-//  AUTHOR: Song Ho Ahn (song.ahn@gmail.com)
-// CREATED: 2006-06-28
-// UPDATED: 2014-02-02
-///////////////////////////////////////////////////////////////////////////////
-
 #define WIN32_LEAN_AND_MEAN             // exclude rarely-used stuff from Windows headers
 
 #include <windows.h>

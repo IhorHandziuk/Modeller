@@ -1,16 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
-// DialogWindow.h
-// ==============
-// A class of Dialog Box for MS Windows
-// It creates a dialog box with CreateDialogParam() API call.
-//
-//  AUTHOR: Song Ho Ahn
-// CREATED: 2005-03-16
-// UPDATED: 2006-06-20
-///////////////////////////////////////////////////////////////////////////////
-
-#ifndef WIN_DIALOG_WINDOW_H
-#define WIN_DIALOG_WINDOW_H
+#pragma once
 
 #include <windows.h>
 #include "Controller.h"
@@ -26,9 +14,9 @@ namespace Win
         DialogWindow(HINSTANCE hInst, WORD id, HWND hParent, Controller* ctrl);
         ~DialogWindow();
 
-        HWND create();                          // create a dialog
-        void show(int cmdShow=SW_SHOWDEFAULT);  // make the window visible or invisible
-        HWND getHandle()                        { return handle; }; // return dialog window handle
+        HWND create();                             // create a dialog
+        void show(int cmdShow=SW_SHOWDEFAULT);     // make the window visible or invisible
+        HWND getHandle() const { return handle; }  // return dialog window handle
 
         // setters
         void setPosition(int x, int y)          { this->x = x; this->y = y; };
@@ -48,5 +36,3 @@ namespace Win
         Win::Controller *controller;            // pointer to controller
     };
 }
-
-#endif

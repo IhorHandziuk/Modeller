@@ -1,15 +1,6 @@
-///////////////////////////////////////////////////////////////////////////////
-// Window.cpp
-// ==========
-// A class of Window for MS Windows
-// It registers window class(WNDCLASSEX) with RegisterClassEx() and creates a 
-// window with CreateWindowEx() API call.
-///////////////////////////////////////////////////////////////////////////////
-
 #pragma warning(disable : 4996)
 #include <sstream>
 #include <iostream>
-#include <cstring>
 #include "Window.h"
 #include "procedure.h"
 using std::wstringstream;
@@ -17,15 +8,12 @@ using std::wcout;
 using std::endl;
 using namespace Win;
 
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-// constructor with params
-// NOTE: Windows does not clip a child window from the parent client's area.
-// To prevent the parent window from drawing over its child window area, the
-// parent window must have WS_CLIPCHILDREN flag.
-///////////////////////////////////////////////////////////////////////////////
+/*
+ * constructor with params
+ * NOTE: Windows does not clip a child window from the parent client's area.
+ * To prevent the parent window from drawing over its child window area, the
+ * parent window must have WS_CLIPCHILDREN flag.
+ */
 Window::Window(HINSTANCE hInst, const wchar_t* name, HWND hParent, Controller* ctrl) : handle(0), instance(hInst), controller(ctrl), winStyle(WS_OVERLAPPEDWINDOW | WS_CLIPCHILDREN),
                                                                                        winStyleEx(WS_EX_CLIENTEDGE), x(CW_USEDEFAULT), y(CW_USEDEFAULT),
                                                                                        width(CW_USEDEFAULT), height(CW_USEDEFAULT),
@@ -51,21 +39,11 @@ Window::Window(HINSTANCE hInst, const wchar_t* name, HWND hParent, Controller* c
     winClass.hIconSm       = LoadIcon(instance, IDI_APPLICATION);   // default small icon
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// destructor
-///////////////////////////////////////////////////////////////////////////////
 Window::~Window()
 {
     ::UnregisterClass(className, instance);
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// create a window
-///////////////////////////////////////////////////////////////////////////////
 HWND Window::create()
 {
     // register a window class
@@ -89,22 +67,12 @@ HWND Window::create()
     return handle;
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// show the window on the screen
-///////////////////////////////////////////////////////////////////////////////
-void Window::show(int cmdShow)
+void Window::show(int cmdShow) const
 {
     ::ShowWindow(handle, cmdShow);
     ::UpdateWindow(handle);
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// print itself
-///////////////////////////////////////////////////////////////////////////////
 void Window::printSelf() const
 {
     wstringstream wss;                          // wide char output string stream buffer
@@ -125,21 +93,11 @@ void Window::printSelf() const
     wcout << wss.str();                         // print the string to the console
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// load an icon using resource ID and convert it to HICON
-///////////////////////////////////////////////////////////////////////////////
 HICON Window::loadIcon(int id)
 {
     return (HICON)::LoadImage(instance, MAKEINTRESOURCE(id), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// load an icon using resource ID and convert it to HICON
-///////////////////////////////////////////////////////////////////////////////
 HICON Window::loadCursor(int id)
 {
     return (HCURSOR)::LoadImage(instance, MAKEINTRESOURCE(id), IMAGE_CURSOR, 0, 0, LR_DEFAULTSIZE);

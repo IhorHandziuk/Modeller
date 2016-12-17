@@ -1,15 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
-// ViewFormGL.h
-// ============
-// View component of OpenGL dialog window
-//
-//  AUTHORL Song Ho Ahn (song.ahn@gmail.com)
-// CREATED: 2006-07-10
-// UPDATED: 2006-08-15
-///////////////////////////////////////////////////////////////////////////////
-
-#ifndef VIEW_FORM_GL_H
-#define VIEW_FORM_GL_H
+#pragma once
 
 #include <windows.h>
 #include "Controls.h"
@@ -52,5 +41,3 @@ namespace Win
 		Win::Trackbar trackbarRotateZ;
     };
 }
-
-#endif

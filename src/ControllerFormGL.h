@@ -1,15 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
-// ControllerFormGL.h
-// ==================
-// Derived Controller class for OpenGL dialog window
-//
-//  AUTHOR: Song Ho Ahn (song.ahn@gamil.com)
-// CREATED: 2006-07-09
-// UPDATED: 2013-03-17
-///////////////////////////////////////////////////////////////////////////////
-
-#ifndef WIN_CONTROLLER_FORM_GL_H
-#define WIN_CONTROLLER_FORM_GL_H
+#pragma once
 
 #include "Controller.h"
 #include "ViewFormGL.h"
@@ -30,9 +19,7 @@ namespace Win
 
 
     private:
-        ModelGL* model;                             // pointer to model component
-        ViewFormGL* view;                           // pointer to view component
+        ModelGL* model;                             
+        ViewFormGL* view;                          
     };
 }
-
-#endif

@@ -13,18 +13,13 @@ int ControllerFormGL::create()
 {
     // initialize all controls
     view->initControls(handle);
-    // place the opengl form dialog in right place, bottome of the opengl rendering window
-    //RECT rect = {0, 0, 4, 8};
-    //::MapDialogRect(glDialog.getHandle(), &rect);
-    //int width = MulDiv(300, 4, rect.right);
-    //::SetWindowPos(handle, HWND_TOP, 0, 300, 300, 200, 0);
     return 0;
 }
 
 // handle WM_COMMAND
 int ControllerFormGL::command(int id, int command, LPARAM msg)
 {
-    static bool flag = false;
+    static auto flag = false;
 
     switch(id)
     {

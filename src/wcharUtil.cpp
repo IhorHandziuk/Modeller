@@ -1,12 +1,5 @@
-///////////////////////////////////////////////////////////////////////////////
-// wcharUtil.cpp
-// =============
-// conversion utility between multi-byte char and wide char
-///////////////////////////////////////////////////////////////////////////////
-
 #pragma warning(disable : 4996)
 #include <cstdlib>
-#include <cwchar>
 #include <sstream>
 #include <string>
 #include "wcharUtil.h"
@@ -24,9 +17,6 @@ static int wchar_indexWchar = 0;                                // current index
 static int wchar_indexChar = 0;                                 // current index of circular buffer
 
 
-///////////////////////////////////////////////////////////////////////////////
-// convert char* string to wchar_t* string
-///////////////////////////////////////////////////////////////////////////////
 const wchar_t* toWchar(const char *src)
 {
     wchar_indexWchar = (++wchar_indexWchar) % WCHAR_MAX_COUNT;  // circulate index
@@ -37,11 +27,6 @@ const wchar_t* toWchar(const char *src)
     return wchar_wideStr[wchar_indexWchar];                     // return string as wide char
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// convert a number to wchar_t* string
-///////////////////////////////////////////////////////////////////////////////
 const wchar_t* toWchar(double number)
 {
     wchar_indexWchar = (++wchar_indexWchar) % WCHAR_MAX_COUNT;  // circulate index
@@ -71,12 +56,6 @@ const wchar_t* toWchar(long number)
     return wchar_wideStr[wchar_indexWchar];                     // return string as wide char
 }
 
-
-
-
-///////////////////////////////////////////////////////////////////////////////
-// convert wchar_t* string to char* string
-///////////////////////////////////////////////////////////////////////////////
 const char* toChar(const wchar_t* src)
 {
     wchar_indexChar = (++wchar_indexChar) % WCHAR_MAX_COUNT;    // circulate index
@@ -87,11 +66,6 @@ const char* toChar(const wchar_t* src)
     return wchar_str[wchar_indexChar];                          // return string as char
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// convert a number to char* string
-///////////////////////////////////////////////////////////////////////////////
 const char* toChar(double number)
 {
     wchar_indexChar = (++wchar_indexChar) % WCHAR_MAX_COUNT;    // circulate index
@@ -106,6 +80,7 @@ const char* toChar(double number)
 
     return wchar_str[wchar_indexChar];                          // return string as char
 }
+
 const char* toChar(long number)
 {
     wchar_indexChar = (++wchar_indexChar) % WCHAR_MAX_COUNT;    // circulate index

@@ -1,21 +1,3 @@
-///////////////////////////////////////////////////////////////////////////////
-// Log.cpp
-// =======
-// It prints out any log messages to file or dialog box.
-// Log class is a singleton class which is contructed by calling
-// Log::getInstance() (lazy initialization), and is destructed automatically
-// when the application is terminated.
-//
-// In order to log, use Win::log() function with appropriate formats.
-// For example, Win::log(L"My number: %d\n", 123).
-// It is similar to printf() function of C standard libirary.
-//
-// The template of the log dialog window is defined in log.rc and logResource.h
-// You must include both resource file with this source codes.
-// The dialog window cannot be closed by user once it is created. But it will be
-// destroyed when the application terminated.
-///////////////////////////////////////////////////////////////////////////////
-
 #include <cstdarg>
 #include <cwchar>
 #include <sstream>
@@ -30,11 +12,6 @@ const char* LOG_FILE = "log.txt";
 
 BOOL CALLBACK logDialogProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// constructor
-///////////////////////////////////////////////////////////////////////////////
 Log::Log() : logMode(LOG_MODE_FILE), dialogHandle(0), listHandle(0)
 {
     // open log file
@@ -49,11 +26,6 @@ Log::Log() : logMode(LOG_MODE_FILE), dialogHandle(0), listHandle(0)
             << std::flush;
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// destructor
-///////////////////////////////////////////////////////////////////////////////
 Log::~Log()
 {
     // close opened file
@@ -68,22 +40,12 @@ Log::~Log()
     }
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// instantiate a singleton instance if not exist
-///////////////////////////////////////////////////////////////////////////////
 Log& Log::getInstance()
 {
     static Log self;
     return self;
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// add message to log
-///////////////////////////////////////////////////////////////////////////////
 void Log::put(const std::wstring& message)
 {
     if(logMode != LOG_MODE_FILE)
@@ -111,12 +73,7 @@ void Log::put(const std::wstring& message)
 }
 
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// get system date as a string
-///////////////////////////////////////////////////////////////////////////////
-const std::wstring Log::getDate()
+std::wstring Log::getDate()
 {
     std::wstringstream wss;
 
@@ -132,11 +89,7 @@ const std::wstring Log::getDate()
 }
 
 
-
-///////////////////////////////////////////////////////////////////////////////
-// get system time as a string
-///////////////////////////////////////////////////////////////////////////////
-const std::wstring Log::getTime()
+std::wstring Log::getTime()
 {
     std::wstringstream wss;
 
@@ -151,11 +104,6 @@ const std::wstring Log::getTime()
     return wss.str();
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// switch logging target; file or dialog window
-///////////////////////////////////////////////////////////////////////////////
 void Log::setMode(int mode)
 {
     if(mode > LOG_MODE_BOTH) return;                // invalid mode number

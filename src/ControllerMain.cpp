@@ -1,11 +1,5 @@
-///////////////////////////////////////////////////////////////////////////////
-// ControllerMain.cpp
-// ==================
-// Derived Controller class for main window
-///////////////////////////////////////////////////////////////////////////////
-
 #include <windows.h>
-#include <commctrl.h>                   // common controls
+#include <commctrl.h>                   
 #include <sstream>
 #include "ControllerMain.h"
 #include "resource.h"
@@ -27,8 +21,7 @@ bool CALLBACK enumerateChildren(HWND childHandle, LPARAM lParam);
 
 
 ControllerMain::ControllerMain(ModelGL* _model) : model(_model), glHandle(0), formHandle(0)
-{
-}
+{}
 
 string oldType;
 
@@ -308,19 +301,19 @@ int ControllerMain::command(int id, int cmd, LPARAM msg)
 
 int ControllerMain::close()
 {
-    Win::log(""); // blank line
-    Win::log("Terminating application...");
+    log(""); // blank line
+    log("Terminating application...");
 
     // close all child windows first
-    ::EnumChildWindows(handle, (WNDENUMPROC)enumerateChildren, (LPARAM)WM_CLOSE);
+    EnumChildWindows(handle, (WNDENUMPROC)enumerateChildren, (LPARAM)WM_CLOSE);
 
-    ::DestroyWindow(handle);    // close itself
+    DestroyWindow(handle);    // close itself
     return 0;
 }
 
 int ControllerMain::destroy()
 {
-    ::PostQuitMessage(0);       // exit the message loop
+    PostQuitMessage(0);       // exit the message loop
  
     Win::log("Main window is destroyed.");
     return 0;

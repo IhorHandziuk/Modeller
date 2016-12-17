@@ -1,39 +1,12 @@
-///////////////////////////////////////////////////////////////////////////////
-// Controls.h
-// ==========
-// collection of controls (button, checkbox, textbox...)
-//
-// Button       : push button
-// CheckBox     : check box
-// RadioButton  : radio button
-// TextBox      : static label box
-// EditBox      : editable text box
-// ListBox      : list box
-// Trackbar     : trackbar(slider), required comctl32.dll
-// ComboBox     : combo box
-// TreeView     : tree-view control, required comctl32.dll
-// UpDownBox    : Up-Down(Spin) control, required comctl32.dll
-//
-//  AUTHOR: Song Ho Ahn (song.ahn@gmail.com)
-// CREATED: 2005-03-28
-// UPDATED: 2013-01-17
-///////////////////////////////////////////////////////////////////////////////
-
-#ifndef WIN_CONTROLS_H
-#define WIN_CONTROLS_H
+#pragma once
 
 #include <windows.h>
-#include <commctrl.h>                   // common controls
+#include <commctrl.h>                   
 
 namespace Win
 {
-    // constants //////////////////////////////////////////////////////////////
     enum { MAX_INDEX = 30000 };
 
-
-    ///////////////////////////////////////////////////////////////////////////
-    // base class of control object
-    ///////////////////////////////////////////////////////////////////////////
     class ControlBase
     {
     public:
@@ -106,11 +79,6 @@ namespace Win
         HFONT fontHandle;
     };
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // button class
-    ///////////////////////////////////////////////////////////////////////////
     class Button : public ControlBase
     {
     public:
@@ -127,11 +95,6 @@ namespace Win
         void setImage(HICON icon) { SendMessage(handle, BM_SETIMAGE, (WPARAM)IMAGE_ICON, (LPARAM)icon); }
     };
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Checkbox class
-    ///////////////////////////////////////////////////////////////////////////
     class CheckBox : public Button
     {
     public:
@@ -145,10 +108,6 @@ namespace Win
     };
 
 
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Radio button class
-    ///////////////////////////////////////////////////////////////////////////
     class RadioButton : public Button
     {
     public:
@@ -161,11 +120,6 @@ namespace Win
         bool isChecked() const { return (SendMessage(handle, BM_GETCHECK, 0, 0) == BST_CHECKED); }
     };
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Text box class
-    ///////////////////////////////////////////////////////////////////////////
     class TextBox: public ControlBase
     {
     public:
@@ -178,11 +132,6 @@ namespace Win
         int  getTextLength() const { return (int)SendMessage(handle, WM_GETTEXTLENGTH, 0, 0); } // return number of chars
     };
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Edit box class
-    ///////////////////////////////////////////////////////////////////////////
     class EditBox: public TextBox
     {
     public:
@@ -205,11 +154,6 @@ namespace Win
         int maxLength;
     };
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // List box class
-    ///////////////////////////////////////////////////////////////////////////
     class ListBox: public ControlBase
     {
     public:
@@ -243,16 +187,6 @@ namespace Win
         int listCount;
     };
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Trackbar class (Slider)
-    // It requires loading comctl32.dll. Note that the range values are logical
-    // numbers and all integers.For example, if you want the range of 0~1 and
-    // 100 increment steps(ticks) between 0 and 1, then you need to call
-    // setRange(0, 100), not setRange(0,1). In other words, this class is not
-    // responsible to scale the range to actual values.
-    ///////////////////////////////////////////////////////////////////////////
     class Trackbar: public ControlBase
     {
     public:
@@ -279,11 +213,6 @@ namespace Win
         void setPos(int pos) { SendMessage(handle, TBM_SETPOS, (WPARAM)true, (LPARAM)pos); }
     };
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // Combo box class
-    ///////////////////////////////////////////////////////////////////////////
     class ComboBox: public ControlBase
     {
     public:
@@ -309,12 +238,6 @@ namespace Win
         void setCurrentSelection(int index) { SendMessage(handle, CB_SETCURSEL, index, 0); }
     };
 
-
-
-    ///////////////////////////////////////////////////////////////////////////
-    // TreeView class
-    // It requires comctl32.dll.
-    ///////////////////////////////////////////////////////////////////////////
     class TreeView: public ControlBase
     {
     public:
@@ -418,13 +341,13 @@ namespace Win
 
 
 
-    ///////////////////////////////////////////////////////////////////////////
-    // UpDownBox class
-    // It requires comctl32.dll.
-    // Note that UpDownBox sends UDN_DELTAPOS notification when the position of
-    // the control is about to change. Return non-zero value to prevent the
-    // change.
-    ///////////////////////////////////////////////////////////////////////////
+    /*
+     * UpDownBox class
+     * It requires comctl32.dll.
+     * Note that UpDownBox sends UDN_DELTAPOS notification when the position of
+     * the control is about to change. Return non-zero value to prevent the
+     * change.
+     */
     class UpDownBox: public ControlBase
     {
     public:
@@ -462,4 +385,3 @@ namespace Win
 
 }
 
-#endif

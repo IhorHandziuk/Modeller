@@ -1,23 +1,11 @@
-///////////////////////////////////////////////////////////////////////////////
-// ViewFormGL.cpp
-// ==============
-// View component of OpenGL dialog window
-///////////////////////////////////////////////////////////////////////////////
-
 #include "ViewFormGL.h"
 #include "resource.h"
 #include "Log.h"
 using namespace Win;
 
-// default ctor
-ViewFormGL::ViewFormGL()
-{
-}
+ViewFormGL::ViewFormGL() {}
 
-// default dtor
-ViewFormGL::~ViewFormGL()
-{
-}
+ViewFormGL::~ViewFormGL() {}
 
 // initialize all controls
 void ViewFormGL::initControls(HWND handle)

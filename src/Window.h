@@ -1,17 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
-// Window.h
-// ========
-// A class of Window for MS Windows
-// It registers window class(WNDCLASSEX) with RegisterClassEx() and creates a 
-// window with CreateWindowEx() API call.
-//
-//  AUTHOR: Song Ho Ahn
-// CREATED: 2005-03-16
-// UPDATED: 2006-06-20
-///////////////////////////////////////////////////////////////////////////////
-
-#ifndef WIN_WINDOW_H
-#define WIN_WINDOW_H
+#pragma once
 
 #include <windows.h>
 #include "Controller.h"
@@ -29,32 +16,31 @@ namespace Win
         void printSelf() const;                 // print itself
 
         HWND create();                          // create a window
-        void show(int cmdShow=SW_SHOWDEFAULT);  // make the window visible
-        HWND getHandle()                        { return handle; }; // return window handle
+        void show(int cmdShow=SW_SHOWDEFAULT) const;  // make the window visible
+        HWND getHandle() const { return handle; } // return window handle
 
         // setters for WNDCLASSEX, if not specified, use default values
-        void setClassStyle(UINT style)          { winClass.style = style; };
-        void setIcon(int id)                    { winClass.hIcon = loadIcon(id); };
-        void setIconSmall(int id)               { winClass.hIconSm = loadIcon(id); };
-        void setCursor(int id)                  { winClass.hCursor = loadCursor(id); };
-        void setBackground(int color)           { winClass.hbrBackground = (HBRUSH)::GetStockObject(color); };
-        void setMenuName(LPCTSTR name)          { winClass.lpszMenuName = name; };
+        void setClassStyle(UINT style)          { winClass.style = style; }
+        void setIcon(int id)                    { winClass.hIcon = loadIcon(id); }
+        void setIconSmall(int id)               { winClass.hIconSm = loadIcon(id); }
+        void setCursor(int id)                  { winClass.hCursor = loadCursor(id); }
+        void setBackground(int color)           { winClass.hbrBackground = (HBRUSH)GetStockObject(color); }
+        void setMenuName(LPCTSTR name)          { winClass.lpszMenuName = name; }
 
         // setters for CreateWindowEx()
-        void setWindowStyle(DWORD style)        { winStyle = style; };
-        void setWindowStyleEx(DWORD style)      { winStyleEx = style; };
-        void setPosition(int x, int y)          { this->x = x; this->y = y; };
-        void setWidth(int w)                    { width = w; };
-        void setHeight(int h)                   { height = h; };
-        void setParent(HWND handle)             { parentHandle = handle; };
-        void setMenu(HMENU handle)              { menuHandle = handle; };
+        void setWindowStyle(DWORD style)        { winStyle = style; }
+        void setWindowStyleEx(DWORD style)      { winStyleEx = style; }
+        void setPosition(int x, int y)          { this->x = x; this->y = y; }
+        void setWidth(int w)                    { width = w; }
+        void setHeight(int h)                   { height = h; }
+        void setParent(HWND handle)             { parentHandle = handle; }
+        void setMenu(HMENU handle)              { menuHandle = handle; }
 
 
     private:
         enum { MAX_STRING = 256 };              // local constants, max length of string
 
         // member functions
-        void registerClass();                   // register window class with Windows system
         HICON loadIcon(int id);                 // load icon using resource id
         HCURSOR loadCursor(int id);             // load icon using resource id
 
@@ -71,8 +57,6 @@ namespace Win
         HWND parentHandle;                      // handle to parent window
         HMENU menuHandle;                       // handle to menu
         HINSTANCE instance;                     // handle to instance
-        Win::Controller *controller;            // pointer to controller
+        Controller *controller;            // pointer to controller
     };
 }
-
-#endif

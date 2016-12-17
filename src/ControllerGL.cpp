@@ -1,55 +1,25 @@
-///////////////////////////////////////////////////////////////////////////////
-// ControllerGL.cpp
-// ================
-// Derived Controller class for OpenGL window
-// It is the controller of OpenGL rendering window. It initializes DC and RC,
-// when WM_CREATE called, then, start new thread for OpenGL rendering loop.
-//
-// When this class is constructed, it gets the pointers to model and view
-// components.
-///////////////////////////////////////////////////////////////////////////////
-
 #include <process.h>                                // for _beginthreadex()
 #include "ControllerGL.h"
 #include "Log.h"
-#include <iostream>
 using namespace Win;
-
-HANDLE console = NULL; // консоль для вывода 
-
-					   // создаем консоль 
-void CreateConsole(HWND hwnd)
-{
-	if (!AllocConsole())
-		MessageBox(hwnd, L"Can't create console!", L"ERROR", MB_OK | MB_ICONEXCLAMATION);
-	else
-	{
-		console = GetStdHandle(STD_OUTPUT_HANDLE);
-		freopen("CONOUT$", "wt", stdout);
-		printf("First string\n\n");
-	}
-
-}
 
 // default contructor
 ControllerGL::ControllerGL(ModelGL* model, ViewGL* view) : model(model), view(view),
 														   threadHandle(0), threadId(0),
 														   loopFlag(false) 
-{
-
-}
+{}
 
 // handle WM_CLOSE
 int ControllerGL::close()
 {
 	loopFlag = false;
-	::WaitForSingleObject(threadHandle, INFINITE);   // wait for rendering thread is terminated
+	WaitForSingleObject(threadHandle, INFINITE);   // wait for rendering thread is terminated
 
 	// close OpenGL Rendering Context (RC)
 	view->closeContext(handle);
 
-	::DestroyWindow(handle);
-	Win::log("OpenGL window is destroyed.");
+	DestroyWindow(handle);
+	log("OpenGL window is destroyed.");
 	return 0;
 }
 
@@ -60,7 +30,7 @@ int ControllerGL::create()
 	// create a OpenGL rendering context
 	if(!view->createContext(handle, 32, 24, 8))
 	{
-		Win::log(L"[ERROR] Failed to create OpenGL rendering context from ControllerGL::create().");
+		log(L"[ERROR] Failed to create OpenGL rendering context from ControllerGL::create().");
 		return -1;
 	}
 
@@ -70,11 +40,11 @@ int ControllerGL::create()
 	if(threadHandle)
 	{
 		loopFlag = true;
-		Win::log(L"Created a rendering thread for OpenGL.");
+		log(L"Created a rendering thread for OpenGL.");
 	}
 	else
 	{
-		Win::log(L"[ERROR] Failed to create rendering thread from ControllerGL::create().");
+		log(L"[ERROR] Failed to create rendering thread from ControllerGL::create().");
 	}
 
 	return 0;
@@ -105,20 +75,20 @@ void ControllerGL::threadFunction(void* param)
 void ControllerGL::runThread()
 {
 	// set the current RC in this thread
-	::wglMakeCurrent(view->getDC(), view->getRC());
+	wglMakeCurrent(view->getDC(), view->getRC());
 
 	// initialize OpenGL states
 	model->init();
-	Win::log(L"Initialized OpenGL states.");
+	log(L"Initialized OpenGL states.");
 
 	// cofigure projection matrix
 	RECT rect;
-	::GetClientRect(handle, &rect);
+	GetClientRect(handle, &rect);
 	model->resizeWindow(rect.right, rect.bottom);
-	Win::log(L"Initialized OpenGL viewport and projection matrix.");
+	log(L"Initialized OpenGL viewport and projection matrix.");
 
 	// rendering loop
-	Win::log(L"Entering OpenGL rendering thread...");
+	log(L"Entering OpenGL rendering thread...");
 	while(loopFlag)
 	{
 		Sleep(4);                       // yield to other processes or threads
@@ -127,9 +97,9 @@ void ControllerGL::runThread()
 	}
 
 	// terminate rendering thread
-	::wglMakeCurrent(0, 0);             // unset RC
-	::CloseHandle(threadHandle);
-	Win::log(L"Exit OpenGL rendering thread.");
+	wglMakeCurrent(0, 0);             // unset RC
+	CloseHandle(threadHandle);
+	log(L"Exit OpenGL rendering thread.");
 }
 
 // handle Left mouse down
@@ -233,7 +203,7 @@ int ControllerGL::mouseMove(WPARAM state, int x, int y)
 int ControllerGL::size(int w, int h, WPARAM wParam)
 {
 	model->resizeWindow(w, h);
-	Win::log(L"OpenGL window is resized: %dx%d.", w, h);
+	log(L"OpenGL window is resized: %dx%d.", w, h);
 	return 0;
 }
 
