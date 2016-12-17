@@ -5,7 +5,6 @@
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include "ModelGL.h"
-#include "Bmp.h"
 #include "Shape.h"
 #include <iostream>
 
