@@ -141,7 +141,6 @@ void ModelGL::draw()
 	glPopMatrix();
 
 	if (pick) {
-		bool clear = true;;
 		if (!ctrl) {
 			for (auto i : shapes) i->marked = false;
 		}
@@ -152,7 +151,6 @@ void ModelGL::draw()
 			if (i->ID == (int)pixel[0])
 			{
 				i->marked = true;
-				clear = false;
 			}
 		}
 		pick = false;

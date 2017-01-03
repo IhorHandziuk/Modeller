@@ -1,6 +1,7 @@
 #include <process.h>                                // for _beginthreadex()
 #include "ControllerGL.h"
 #include "Log.h"
+#include <iostream>
 using namespace Win;
 
 // default contructor
@@ -160,35 +161,19 @@ int ControllerGL::mouseMove(WPARAM state, int x, int y)
 		model->rotateCamera(x, y);
 		break;
 	case MK_RBUTTON:
+		
+		float angleY = model->cameraAngleY * pi / 180.0f;
+		float angleX = model->cameraAngleX * pi / 180.0f;
+		float dx = sin(angleY) * cos(angleX) * (prevY - y) + cos(angleY) * (x - prevX);
+		float dy = cos(angleY) * cos(angleX) * (prevY - y) + sin(angleY) * (prevX - x);
+		float dz = -sin(model->cameraAngleX * pi / 180.0f) * (prevY - y);
 
-#pragma region usefull comments
-		//set XOY
-		//model->setCameraAngle(0, 0);
-		//set XOZ
-		//model->setCameraAngle(-90, 0);
-		//set YOZ
-		//model->setCameraAngle(-90, -90);
-
-		//float dx = (x - prevX) / 10.0f; //case XY
-		//float dy = (prevY - y) / 10.0f;
-		//float dz = 0;
-
-		//float dx = (x - prevX) / 10.0f; //case XZ
-		//float dy = 0;
-		//float dz = (prevY - y) / 10.0f;
-
-		//float dx = 0; //case YZ
-		//float dy = (x - prevX) / 10.0f;
-		//float dz = (prevY - y) / 10.0f;
-#pragma endregion
-
-		float dx = cos(model->cameraAngleY * pi / 180.0f) * (x - prevX) / 10.f;
-		float dy = cos(model->cameraAngleX * pi / 180) * (prevY - y) / 10.f - sin(model->cameraAngleY * pi / 180.0f) * (x - prevX) / 10.f;
-		float dz = -sin(model->cameraAngleX * pi / 180.0f) * (prevY - y) / 10.0f;
-		for (auto i : model->shapes)
-		{
-			if (i->marked)
-			{
+		dx /= 10.0f;
+		dy /= 10.0f;
+		dz /= 10.0f;
+		
+		for (auto i : model->shapes) {
+			if (i->marked) {
 				i->move(dx, dy, dz);
 			}
 		}
