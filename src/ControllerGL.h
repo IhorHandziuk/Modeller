@@ -25,6 +25,7 @@ namespace Win
         int rButtonDown(WPARAM state, int x, int y)    override;
         int rButtonUp(WPARAM state, int x, int y)      override;
         int mouseMove(WPARAM state, int x, int y)      override;
+		int mouseWheel(int state, int d, int x, int y) override;
 
 
    

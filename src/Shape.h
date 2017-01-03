@@ -8,9 +8,7 @@ using namespace std;
 class Shape
 {
 protected:
-
-
-	GLuint getID() {
+	static GLuint getID() {
 		static GLuint curID = 0;
 		curID++;
 		return curID;
@@ -250,8 +248,8 @@ public:
 class Grid: public Shape
 {
 public:
-	char* type() { return "Grid"; }
-	void draw()
+	char* type() override { return "Grid"; }
+	void draw() override
 	{
 		static const int gridRes = 5;
 		glMatrixMode(GL_MODELVIEW);
@@ -283,7 +281,6 @@ public:
 	}
 };
 
-/*
 class Ellipsoid : public Shape
 {
 	const float SPHERE_RADIUS = 1.0f;
@@ -291,22 +288,16 @@ class Ellipsoid : public Shape
 	const int SPHERE_LONG_SLICES = 24;//192
 	const float PI = 3.141592654f;
 
-	inline float3 rotate_x(float3 v, float sin_ang, float cos_ang)
-	{
-		return float3(
-			v.x,
-			(v.y * cos_ang) + (v.z * sin_ang),
-			(v.z * cos_ang) - (v.y * sin_ang)
-			);
+	static float3 rotate_x(float3 v, float sin_ang, float cos_ang) {
+		return float3(v.x,
+			          v.y * cos_ang + v.z * sin_ang,
+			          v.z * cos_ang - v.y * sin_ang);
 	}
 
-	inline float3 rotate_y(float3 v, float sin_ang, float cos_ang)
-	{
-		return float3(
-			(v.x * cos_ang) + (v.z * sin_ang),
-			v.y,
-			(v.z * cos_ang) - (v.x * sin_ang)
-			);
+	static float3 rotate_y(float3 v, float sin_ang, float cos_ang) {
+		return float3(v.x * cos_ang + v.z * sin_ang, 
+				      v.y,
+			          v.z * cos_ang - v.x * sin_ang);
 	}
 	float _a, _b, _c;
 public:
@@ -319,121 +310,7 @@ public:
 		const float cos_lat = cos(lat_angle);
 		const float sin_long = sin(long_angle);
 		const float cos_long = cos(long_angle);
-
-		float3 first(0.0f, SPHERE_RADIUS, 0.0);
-		for (int y = 0; y < SPHERE_LAT_SLICES; ++y)
-		{
-			float3 curr_x = rotate_x(first, sin_lat, cos_lat);
-			verteces.push_back(curr_x);
-			normals.push_back(curr_x);
-
-			for (int x = 0; x < SPHERE_LONG_SLICES; ++x)
-			{
-				float3 curr_y = rotate_y(curr_x, sin_lat, cos_lat);
-				verteces.push_back(curr_y);
-				normals.push_back(curr_y);
-
-			}
-		}
-		//verteces.push_back(float3(0, 0, 0));
-		//verteces.push_back(float3(1, 0, 0));
-		//verteces.push_back(float3(0, 0, 1));
-
-		//normals.push_back(float3(0, 0, 0));
-		//normals.push_back(float3(1, 0, 0));
-		//normals.push_back(float3(0, 0, 1));
-		facets.resize(1);
-		//normals.resize(1);
-			facets[0].triangle[0] = 0;
-			facets[0].triangle[1] = 1;
-			facets[0].triangle[2] = 2;
-
-			facets[0].normal[0] = 0;
-			facets[0].normal[1] = 1;
-			facets[0].normal[2] = 2;
-
-		//facets.resize(SPHERE_LAT_SLICES*2* SPHERE_LONG_SLICES);
-
-		//for (int i = 0; i < SPHERE_LAT_SLICES; i++)
-		//{
-		//	for (int j = 0; j < SPHERE_LAT_SLICES; j++)
-		//	{
-		//		facets[i*SPHERE_LAT_SLICES + j].triangle[0] = i*SPHERE_LAT_SLICES + j;
-		//		facets[i*SPHERE_LAT_SLICES + j].triangle[1] = i*SPHERE_LAT_SLICES + j + SPHERE_LONG_SLICES;
-		//		facets[i*SPHERE_LAT_SLICES + j].triangle[2] = i*SPHERE_LAT_SLICES + j + 1;
-
-		//		facets[i*SPHERE_LAT_SLICES + j + 1].triangle[0] = i*SPHERE_LAT_SLICES + j + 1;
-		//		facets[i*SPHERE_LAT_SLICES + j + 1].triangle[1] = i*SPHERE_LAT_SLICES + j + 1 + SPHERE_LONG_SLICES;
-		//		facets[i*SPHERE_LAT_SLICES + j + 1].triangle[2] = i*SPHERE_LAT_SLICES + j + SPHERE_LONG_SLICES;
-
-		//		facets[i*SPHERE_LAT_SLICES + j].normal[0] = i*SPHERE_LAT_SLICES + j;
-		//		facets[i*SPHERE_LAT_SLICES + j].normal[1] = i*SPHERE_LAT_SLICES + j + SPHERE_LONG_SLICES;
-		//		facets[i*SPHERE_LAT_SLICES + j].normal[2] = i*SPHERE_LAT_SLICES + j + 1;
-
-		//		facets[i*SPHERE_LAT_SLICES + j + 1].normal[0] = i*SPHERE_LAT_SLICES + j + 1;
-		//		facets[i*SPHERE_LAT_SLICES + j + 1].normal[1] = i*SPHERE_LAT_SLICES + j + 1 + SPHERE_LONG_SLICES;
-		//		facets[i*SPHERE_LAT_SLICES + j + 1].normal[2] = i*SPHERE_LAT_SLICES + j + SPHERE_LONG_SLICES;
-		//	}
-		//}
-
-/*
-		float3 lat_0(0.0f, SPHERE_RADIUS, 0.0);
-		for (int y = 0; y < SPHERE_LAT_SLICES; ++y)
-		{
-			float3 lat_1 = rotate_x(lat_0, sin_lat, cos_lat);
-
-			float3 long_0_0 = lat_0;
-			float3 long_1_0 = lat_1;
-
-			for (int x = 0; x < SPHERE_LONG_SLICES; ++x)
-			{
-				float3 long_0_1 = rotate_y(long_0_0, sin_long, cos_long);
-				float3 long_1_1 = rotate_y(long_1_0, sin_long, cos_long);
-
-
-				glNormal3f(long_0_0.x, long_0_0.y, long_0_0.z);
-				glVertex3f(long_0_0.x, long_0_0.y, long_0_0.z);
-
-				glNormal3f(long_1_0.x, long_1_0.y, long_1_0.z);
-				glVertex3f(long_1_0.x, long_1_0.y, long_1_0.z);
-
-				glNormal3f(long_1_1.x, long_1_1.y, long_1_1.z);
-				glVertex3f(long_1_1.x, long_1_1.y, long_1_1.z);
-
-				glNormal3f(long_0_1.x, long_0_1.y, long_0_1.z);
-				glVertex3f(long_0_1.x, long_0_1.y, long_0_1.z);
-
-				long_0_0 = long_0_1;
-				long_1_0 = long_1_1;
-			}
-			lat_0 = lat_1;
-		}
-	}
-	char* type() { return "Elipsoid"; }
-	/*
-	void draw()
-	{
-		const int NUM_FACE_COLOURS = 4;
-		float3 FACE_COLOURS[NUM_FACE_COLOURS] = {
-			float3(1.0f, 0.0f, 0.0f),
-			float3(0.0f, 1.0f, 0.0f),
-			float3(0.0f, 0.0f, 1.0f),
-			float3(1.0f, 1.0f, 0.0f)
-		};
-
-		const float lat_angle = PI / (float)SPHERE_LAT_SLICES;
-		const float long_angle = 2.0f * PI / (float)SPHERE_LONG_SLICES;
-
-		const float sin_lat = sin(lat_angle);
-		const float cos_lat = cos(lat_angle);
-		const float sin_long = sin(long_angle);
-		const float cos_long = cos(long_angle);
-
-		glPushMatrix();
-		glScalef(_a, _b, _c);
-
-		glLoadName(ID);
-		glBegin(GL_QUADS);
+		//scale(_a, _b, _c);
 
 		float3 lat_0(0.0f, SPHERE_RADIUS, 0.0);
 
@@ -449,20 +326,18 @@ public:
 				float3 long_0_1 = rotate_y(long_0_0, sin_long, cos_long);
 				float3 long_1_1 = rotate_y(long_1_0, sin_long, cos_long);
 
-				//float3 colour = FACE_COLOURS[(x + y) % NUM_FACE_COLOURS];
-				glColor4f(colour.x, colour.y, colour.z, 1.0f);
+				verteces.push_back(long_0_0);
+				verteces.push_back(long_1_0);
+				verteces.push_back(long_1_1);
+				verteces.push_back(long_0_1);
 
-				glNormal3f(long_0_0.x, long_0_0.y, long_0_0.z);
-				glVertex3f(long_0_0.x, long_0_0.y, long_0_0.z);
-
-				glNormal3f(long_1_0.x, long_1_0.y, long_1_0.z);
-				glVertex3f(long_1_0.x, long_1_0.y, long_1_0.z);
-
-				glNormal3f(long_1_1.x, long_1_1.y, long_1_1.z);
-				glVertex3f(long_1_1.x, long_1_1.y, long_1_1.z);
-
-				glNormal3f(long_0_1.x, long_0_1.y, long_0_1.z);
-				glVertex3f(long_0_1.x, long_0_1.y, long_0_1.z);
+				normals.push_back(long_0_0);
+				normals.push_back(long_1_0);
+				normals.push_back(long_1_1);
+				normals.push_back(long_0_1);
+				int base = 4 * (y * SPHERE_LONG_SLICES + x);
+				facets.push_back(facet(base, base + 1, base + 2, base, base + 1, base + 2));
+				facets.push_back(facet(base, base + 3, base + 2, base, base + 3, base + 2));
 
 				long_0_0 = long_0_1;
 				long_1_0 = long_1_1;
@@ -470,17 +345,15 @@ public:
 
 			lat_0 = lat_1;
 		}
-
-		glEnd();
-		glPopMatrix();
-
 	}
-};*/
+
+	char* type() override { return "Elipsoid"; }
+};
 
 class Tetraedr: public Shape
 {
 public:
-	char* type() { return "Tetraedr"; }
+	char* type() override { return "Tetraedr"; }
 	Tetraedr(float a)
 	{
 		verteces.resize(4);

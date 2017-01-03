@@ -30,6 +30,7 @@
 #define ID_HIDE_GRID                    40002
 #define ID_CUBOID                       40004
 #define ID_TETRAEDR                     40005
+#define ID_ELLIPSOID                    40006
 
 
 

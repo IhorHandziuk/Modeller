@@ -191,11 +191,7 @@ void ModelGL::rotateCamera(int x, int y)
 // zoom the camera
 void ModelGL::zoomCamera(int delta)
 {
-    if(mouseRightDown)
-    {
-        cameraDistance += (delta - mouseY) * 0.05f;
-        mouseY = delta;
-    }
+	cameraDistance += delta;
 }
 
 // change drawing mode

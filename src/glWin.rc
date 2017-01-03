@@ -147,6 +147,7 @@ BEGIN
     BEGIN
         MENUITEM "Cuboid",                      ID_CUBOID
         MENUITEM "Tetraedr",                    ID_TETRAEDR
+        MENUITEM "Ellipsoid",                   ID_ELLIPSOID
     END
 END
 

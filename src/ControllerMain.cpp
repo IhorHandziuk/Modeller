@@ -102,6 +102,10 @@ int ControllerMain::command(int id, int cmd, LPARAM msg)
 		nShape = new Tetraedr(1);
 		model->shapes.push_back(nShape);
 		break;
+	case ID_ELLIPSOID:
+		nShape = new Ellipsoid(1, 1, 1);
+		model->shapes.push_back(nShape);
+		break;
 	case ID_FILE_EXIT:
 		break;
 	case ID_HIDE_GRID:

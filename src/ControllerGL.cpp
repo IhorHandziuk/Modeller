@@ -199,6 +199,12 @@ int ControllerGL::mouseMove(WPARAM state, int x, int y)
 	return 0;
 }
 
+int ControllerGL::mouseWheel(int state, int d, int x, int y)
+{
+	model->zoomCamera(d);
+	return 0;
+}
+
 // handle WM_SIZE
 int ControllerGL::size(int w, int h, WPARAM wParam)
 {
